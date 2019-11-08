@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Gameplay extends JPanel implements KeyListener, ActionListener{
+public class Gameplay extends JPanel implements KeyListener, ActionListener, Runnable{
 	private int [] snakexlength = new int[750];
 	private int [] snakeylength = new int[750];
 	
@@ -19,6 +19,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 	private boolean right = false;
 	private boolean up = false;
 	private boolean down = false;
+	private boolean gameover = false;
 	
 	private ImageIcon rightmouth;
 	private ImageIcon upmouth;
@@ -37,6 +38,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 	
 	private int[] enemyxpos={25,50,75,100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850};
 	private int[] enemyypos={75,100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625};
+	private int[] appletype= {1,2,3,4};
 
 	private ImageIcon enemyimage;
 	
@@ -44,7 +46,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 	
 	private int xpos = random.nextInt(34);
 	private int ypos = random.nextInt(23);
-	
+	private int apple = random.nextInt(4);
 	private ImageIcon titleImage;
 	
 	public Gameplay () {
@@ -121,17 +123,41 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 		
 		enemyimage = new ImageIcon("enemy.png");
 		
-		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0])) {
+		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 1)) {
 			score++;
 			Snake.setLength(Snake.getLength() + 1); 
 			xpos = random.nextInt(34);
 			ypos = random.nextInt(23);
+			apple = random.nextInt(4);
+		}
+		
+		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 2)) {
+			Snake.setLength(3);
+			score++;
+			xpos = random.nextInt(34);
+			ypos = random.nextInt(23);
+			apple = random.nextInt(4);
+		}
+		
+		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 3)) {
+			xpos = random.nextInt(34);
+			ypos = random.nextInt(23);
+			apple = random.nextInt(4);
+			gameover = true;
+		}
+		
+		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 4)) {
+			score+=2;
+			Snake.setLength(Snake.getLength() + 1); 
+			xpos = random.nextInt(34);
+			ypos = random.nextInt(23);
+			apple = random.nextInt(4);
 		}
 		
 		enemyimage.paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
 		
 		for(int b = 1; b < Snake.getLength(); b++) {
-			if(snakexlength[b] == snakexlength [0] && snakeylength[b] == snakeylength[0]) {
+			if((snakexlength[b] == snakexlength [0] && snakeylength[b] == snakeylength[0])||gameover == true) {
 				right = false;
 				left = false;
 				up = false;
@@ -299,6 +325,16 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 		}
 		
 	}
+	
+	//@Override
+	//public void run () {
+		/*try {
+			new Thread.start(delay);
+		}catch() {
+			
+		}
+		
+	}*/
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
@@ -308,6 +344,12 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener{
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void run() {
 		// TODO Auto-generated method stub
 		
 	}
