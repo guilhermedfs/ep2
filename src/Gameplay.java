@@ -124,10 +124,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		
 		}
 		Apple set = new Apple();
-		Apple set2 = new Apple();
-
-		SimpleSnake scor = new SimpleSnake();
-		
 
 		set.chooseApple(appletype[apple]);
 		set.getApple().paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
@@ -143,7 +139,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		
 		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 2)) {
 			Snake.setLength(3);
-			increase();
 			xpos = random.nextInt(34);
 			ypos = random.nextInt(23);
 			apple = random.nextInt(4);
