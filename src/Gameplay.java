@@ -14,6 +14,7 @@ import javax.swing.Timer;
 public class Gameplay extends JPanel implements KeyListener, ActionListener, Runnable{
 	private int [] snakexlength = new int[750];
 	private int [] snakeylength = new int[750];
+	public static int option;
 	
 	private boolean left = false;
 	private boolean right = false;
@@ -26,7 +27,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 	private ImageIcon downmouth;
 	private ImageIcon leftmouth;
 	
-	//private int lengthofsnake = 3;//
 	
 	private Timer timer;
 	private int delay = 100;
@@ -40,7 +40,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 	private int[] enemyypos={75,100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625};
 	private int[] appletype= {1,2,3,4};
 
-	private ImageIcon enemyimage;
 	
 	private Random random = new Random();
 	
@@ -48,6 +47,8 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 	private int ypos = random.nextInt(23);
 	private int apple = random.nextInt(4);
 	private ImageIcon titleImage;
+	private ImageIcon barrierx;
+	private ImageIcon barriery;
 	
 	public Gameplay () {
 		 addKeyListener(this);
@@ -78,24 +79,27 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		
 		//draw border to gameplay
 		g.setColor(Color.WHITE);
-		g.drawRect(24, 74, 851, 577);
+		g.drawRect(24, 74, 851, 625);
 		
 		//draw background for the gameplay
-		g.setColor(Color.black);
-		g.fillRect(25, 75, 850, 575);
+		g.setColor(Color.GRAY);
+		g.fillRect(25, 75, 850, 700);
 		
 		//draw scores
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.PLAIN, 14));
 		g.drawString("Scores: " + score, 780, 30);
-		
 		//draw length
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.PLAIN, 14));
 		g.drawString("Length: " + Snake.getLength(), 780, 50);
 		
+		//draw snake
+		
 		rightmouth = new ImageIcon ("rightmouth.png");
 		rightmouth.paintIcon(this, g, snakexlength[0], snakeylength[0]);
+		
+		
 		
 		for (int a = 0; a < Snake.getLength(); a++) {
 			if(a == 0 && right) {
@@ -119,12 +123,24 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 				snakeimage = new ImageIcon ("snakeimage.png");
 				snakeimage.paintIcon(this, g, snakexlength[a], snakeylength[a]);
 			}
-		}
 		
-		enemyimage = new ImageIcon("enemy.png");
+		}
+		Apple set = new Apple();
+		Apple set2 = new Apple();
+
+		SimpleSnake scor = new SimpleSnake();
+		
+
+		set.chooseApple(appletype[apple]);
+		set.getApple().paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
+		xpos = random.nextInt(34);
+		ypos = random.nextInt(23);
+		apple = random.nextInt(4);
+		set.getApple().paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
+		
 		
 		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 1)) {
-			score++;
+			increase();
 			Snake.setLength(Snake.getLength() + 1); 
 			xpos = random.nextInt(34);
 			ypos = random.nextInt(23);
@@ -133,7 +149,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		
 		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 2)) {
 			Snake.setLength(3);
-			score++;
+			increase();
 			xpos = random.nextInt(34);
 			ypos = random.nextInt(23);
 			apple = random.nextInt(4);
@@ -147,14 +163,19 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		}
 		
 		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 4)) {
-			score+=2;
+			if(option == 2) {
+			score += 2*option;
+			} else {
+				score += 2;
+			}
+			
 			Snake.setLength(Snake.getLength() + 1); 
 			xpos = random.nextInt(34);
 			ypos = random.nextInt(23);
 			apple = random.nextInt(4);
 		}
 		
-		enemyimage.paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
+		
 		
 		for(int b = 1; b < Snake.getLength(); b++) {
 			if((snakexlength[b] == snakexlength [0] && snakeylength[b] == snakeylength[0])||gameover == true) {
@@ -263,6 +284,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			moves = 0;
 			score = 0;
+			gameover = false;
 			Snake.setLength(3);
 			repaint();
 		}
@@ -326,6 +348,23 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		
 	}
 	
+
+	public void isCollision () {
+
+	}
+	
+	public int increase() {
+		if(option == 1 || option == 3) {
+			return score++;
+		}
+		if(option == 2) {
+			return score+=2;
+		}
+		
+		return score;
+	}
+	
+	
 	//@Override
 	//public void run () {
 		/*try {
@@ -335,6 +374,12 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		}
 		
 	}*/
+	
+	public void paint3 (Graphics gameplay) {
+		Apple set = new Apple();
+		set.chooseApple(appletype[0]);
+		set.getApple().paintIcon(this, gameplay, enemyxpos[xpos],enemyypos[ypos]);
+	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
@@ -350,7 +395,17 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+	
 	}
+
+	public int getOption() {
+		return option;
+	}
+
+	public void setOption(int option) {
+		this.option = option;
+	}
+
 }
+	
+

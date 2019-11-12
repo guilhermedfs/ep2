@@ -1,5 +1,7 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -10,6 +12,8 @@ import javax.swing.JFrame;
 
 public class Menu extends JFrame implements WindowListener, ActionListener{
 	private JButton simple = new JButton();
+	private JButton star = new JButton();
+	private JButton kitty = new JButton();
 	private static JFrame obj = new JFrame();
 	public Menu() {
 	
@@ -18,15 +22,33 @@ public class Menu extends JFrame implements WindowListener, ActionListener{
 	obj.setResizable(false);
     simple.setVisible(true);
     simple.setText("Simple Snake");
+    star.setVisible(true);
+    star.setText("Star Snake");
+    kitty.setVisible(true);
+    kitty.setText("Kitty Snake");
     obj.setLayout(new FlowLayout());
     obj.add(simple);
+    obj.add(star);
+    obj.add(kitty);
     obj.setVisible(true);
     simple.addActionListener(this); 
-	
+    star.addActionListener(this);
+    kitty.addActionListener(this);
 	}
 	
 	 public void actionPerformed(ActionEvent e) {
        if(e.getSource() == simple)  {
+    	   Gameplay.option = 1;
+    	   Main start = new Main();
+    	   start.start();
+       }
+       if(e.getSource() == star)  {
+    	   Gameplay.option = 2;
+    	   Main start = new Main();
+    	   start.start();
+       }
+       if(e.getSource() == kitty)  {
+    	   Gameplay.option = 3;
     	   Main start = new Main();
     	   start.start();
        }
@@ -77,6 +99,5 @@ public class Menu extends JFrame implements WindowListener, ActionListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
 
 }
