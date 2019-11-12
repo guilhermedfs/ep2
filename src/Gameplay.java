@@ -38,18 +38,16 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 	
 	private int[] enemyxpos={25,50,75,100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850};
 	private int[] enemyypos={75,100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625};
-	private int[] appletype= {1,2,3,4};
+	private int[] appletype= {1,2,4,1,1,1,1,1,1,1,1,1,1,1,1,4,2};
 
 	
 	private Random random = new Random();
 	
 	private int xpos = random.nextInt(34);
 	private int ypos = random.nextInt(23);
-	private int apple = random.nextInt(4);
+	private int apple = random.nextInt(12);
 	private ImageIcon titleImage;
-	private ImageIcon barrierx;
-	private ImageIcon barriery;
-	
+
 	public Gameplay () {
 		 addKeyListener(this);
 		 setFocusable(true);
@@ -70,19 +68,19 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 			
 		}
 		//draw title image border
-		g.setColor(Color.white);
+		g.setColor(Color.GREEN);
 		g.drawRect(24, 10, 851, 55);
 		
 		//draw title image
-		titleImage = new ImageIcon ("snaketitle.jpg");
+		titleImage = new ImageIcon ("snaketitle.png");
 		titleImage.paintIcon(this, g, 25, 11);
 		
 		//draw border to gameplay
-		g.setColor(Color.WHITE);
+		g.setColor(Color.YELLOW);
 		g.drawRect(24, 74, 851, 625);
 		
 		//draw background for the gameplay
-		g.setColor(Color.GRAY);
+		g.setColor(Color.BLACK);
 		g.fillRect(25, 75, 850, 700);
 		
 		//draw scores
@@ -133,10 +131,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 
 		set.chooseApple(appletype[apple]);
 		set.getApple().paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
-		xpos = random.nextInt(34);
-		ypos = random.nextInt(23);
-		apple = random.nextInt(4);
-		set.getApple().paintIcon(this, g, enemyxpos[xpos],enemyypos[ypos]);
 		
 		
 		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 1)) {
@@ -153,13 +147,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 			xpos = random.nextInt(34);
 			ypos = random.nextInt(23);
 			apple = random.nextInt(4);
-		}
-		
-		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 3)) {
-			xpos = random.nextInt(34);
-			ypos = random.nextInt(23);
-			apple = random.nextInt(4);
-			gameover = true;
 		}
 		
 		if ((enemyxpos[xpos] == snakexlength[0] && enemyypos[ypos] == snakeylength[0] && appletype[apple] == 4)) {
@@ -215,7 +202,11 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 					snakexlength[r] = snakexlength[r-1];
 				}
 				if (snakexlength[r] > 850) {
-					snakexlength[r] = 25;	
+					if(option == 3) {
+						gameover = true;
+					}else {
+						snakexlength[r] = 25;
+					}
 				}
 			}
 			repaint();
@@ -233,7 +224,11 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 					snakexlength[r] = snakexlength[r-1];
 				}
 				if (snakexlength[r] < 25) {
+					if(option == 3) {
+						gameover = true;
+					}else {
 					snakexlength[r] = 850;	
+					}
 				}
 			}
 			repaint();
@@ -252,7 +247,11 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 					snakeylength[r] = snakeylength[r-1];
 				}
 				if (snakeylength[r] < 75) {
-					snakeylength[r] = 625;	
+					if(option == 3) {
+						gameover = true;
+					}else {
+						snakeylength[r] = 625;	
+					}
 				}
 			}
 			repaint();
@@ -271,7 +270,12 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 					snakeylength[r] = snakeylength[r-1];
 				}
 				if (snakeylength[r] > 625) {
-					snakeylength[r] = 75;	
+					if(option == 3) {
+						gameover = true;
+					}else {
+						snakeylength[r] = 75;
+					}
+						
 				}
 			}
 			repaint();
@@ -348,10 +352,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener, Run
 		
 	}
 	
-
-	public void isCollision () {
-
-	}
 	
 	public int increase() {
 		if(option == 1 || option == 3) {

@@ -14,22 +14,26 @@ public class Menu extends JFrame implements WindowListener, ActionListener{
 	private JButton simple = new JButton();
 	private JButton star = new JButton();
 	private JButton kitty = new JButton();
+	private JButton exit = new JButton();
 	private static JFrame obj = new JFrame();
 	public Menu() {
-	
-	obj.setBounds(10, 10, 400, 300);
-	obj.setBackground(Color.LIGHT_GRAY);
+		
+	obj.setBounds(10, 10, 200, 200);
+	obj.setBackground(Color.GREEN);
 	obj.setResizable(false);
     simple.setVisible(true);
     simple.setText("Simple Snake");
     star.setVisible(true);
+    exit.setVisible(true);
     star.setText("Star Snake");
     kitty.setVisible(true);
     kitty.setText("Kitty Snake");
+    exit.setText("Exit Game");
     obj.setLayout(new FlowLayout());
     obj.add(simple);
     obj.add(star);
     obj.add(kitty);
+    obj.add(exit);
     obj.setVisible(true);
     simple.addActionListener(this); 
     star.addActionListener(this);
@@ -51,6 +55,9 @@ public class Menu extends JFrame implements WindowListener, ActionListener{
     	   Gameplay.option = 3;
     	   Main start = new Main();
     	   start.start();
+       }
+       if(e.getSource() == exit)  {
+    	   
        }
 	 }
 	 

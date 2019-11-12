@@ -23,9 +23,7 @@ public class Apple {
 		if(choice == 2) {
 			apple = new ImageIcon("applereset.png");
 		}
-		if(choice == 3) {
-			apple = new ImageIcon("appleend.png");
-		}
+
 		if(choice == 4) {
 			apple = new ImageIcon("appledouble.png");
 		}
